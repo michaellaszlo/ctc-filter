@@ -1,2 +1,9 @@
-./download.rb
-./process.rb
+#!/usr/bin/ruby
+
+dir = File.expand_path(File.dirname(__FILE__))
+
+Dir.chdir(dir)
+puts Dir.pwd
+
+`./download.rb`
+`./process.rb`
