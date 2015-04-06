@@ -10,8 +10,14 @@ number_re = Regexp.new('&nbsp;(.*)&nbsp;')
 download_time = open('latest.time.txt').read.strip
 
 text = open('latest.html').read
-text.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
-text.encode!('UTF-8', 'UTF-16')
+if text.respond_to? 'encode!'
+  text.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
+  text.encode!('UTF-8', 'UTF-16')
+else
+  require 'iconv'
+  ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+  text = ic.iconv(text + ' ')[0..-2]
+end
 
 team_adjust = {
   'ROWING CLUB MANTOVA' => 'Rowing Club Mantova'

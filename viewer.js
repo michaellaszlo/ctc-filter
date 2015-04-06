@@ -180,18 +180,21 @@ Viewer.reportTime = function () {
       container = document.getElementById('time'),
       months = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'],
-      date = new Date(Date.parse(g.downloadTime)),
-      h = date.getHours(), m = date.getMinutes(), s = date.getSeconds(),
+      date = new Date();
+  date.setTime(g.downloadTime);
+  var h = date.getHours(), m = date.getMinutes(), s = date.getSeconds(),
       day = date.getDay(), month = months[date.getMonth()],
       dateParts = [], pm = false;
   if (h == 0) {
     dateParts.push('12');
   } else {
-    if (h > 12) {
+    if (h >= 12) {
       pm = true;
-      h -= 12;
+      if (h > 12) {
+        h -= 12;
+      }
     }
-    dateParts.push((h < 10 ? '0' : '') + h);
+    dateParts.push(''+h);
   }
   dateParts.push(':' + (m < 10 ? '0' : '') + m);
   dateParts.push(':' + (s < 10 ? '0' : '') + s);
