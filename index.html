@@ -4,7 +4,7 @@
 <head>
   <title> CTC filter </title>
   <link rel="stylesheet" href="style.css" />
-  <script src="latest.js"></script>
+  <script src="latest.js?<?= time() ?>"></script>
   <script src="viewer.js"></script>
   <script type="text/javascript">
     WebFontConfig = {
@@ -28,10 +28,21 @@
 
 <h1> CTC filter </h1>
 
+
+<div id="time"></div>
+
 <div id="buttons"></div>
 
 <div id="ranking"></div>
 
+<?php
+    $root = $_SERVER['DOCUMENT_ROOT'];
+    $server_name = $_SERVER['SERVER_NAME'];
+    if ($server_name == 'michaellaszlo.com')
+        echo file_get_contents($root.'/google.analytics.tracking.code.html');
+    else
+        echo "<!-- serving from $server_name -->\n";
+?>
 
 </div><!--end wrapper-->
 </body>

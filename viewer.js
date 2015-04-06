@@ -1,5 +1,5 @@
 var Viewer = {
-  results: results, teamColors: teamColors,
+  results: results, teamColors: teamColors, downloadTime: downloadTime,
   buttonInfo: [
     { category: 'F', longName: 'heavyweight female' },
     { category: 'f', longName: 'lightweight female' },
@@ -120,7 +120,6 @@ Viewer.parseQuery = function () {
       var button = g.buttons[category];
       button.active = false;
       g.classAdd(button, 'disabled');
-      console.log('disabled '+category);
     }
   }
 };
@@ -176,11 +175,40 @@ Viewer.makeChart = function () {
   container.appendChild(table);
 };
 
+Viewer.reportTime = function () {
+  var g = Viewer,
+      container = document.getElementById('time'),
+      months = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'],
+      date = new Date(Date.parse(g.downloadTime)),
+      h = date.getHours(), m = date.getMinutes(), s = date.getSeconds(),
+      day = date.getDay(), month = months[date.getMonth()],
+      dateParts = [], pm = false;
+  if (h == 0) {
+    dateParts.push('12');
+  } else {
+    if (h > 12) {
+      pm = true;
+      h -= 12;
+    }
+    dateParts.push((h < 10 ? '0' : '') + h);
+  }
+  dateParts.push(':' + (m < 10 ? '0' : '') + m);
+  dateParts.push(':' + (s < 10 ? '0' : '') + s);
+  dateParts.push(' ' + (pm ? 'pm' : 'am'));
+  dateParts.push(' on ' + month + ' ' + day);
+  var dateString = dateParts.join('');
+  container.innerHTML = 'The results below were obtained from' +
+      ' the <a target="_blank" href="http://c2ctc.com/">CTC website</a>' +
+      ' at ' + dateString + '.';
+};
+
 Viewer.load = function () {
   var g = Viewer;
   g.makeButtons();
   g.parseQuery();
   g.makeChart();
+  g.reportTime();
 };
 
 window.onload = Viewer.load;

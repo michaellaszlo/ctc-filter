@@ -36,8 +36,19 @@ a:hover {
   border-bottom: 1px solid;
 }
 
+#time {
+  /*
+  display: inline;
+  position: absolute;
+  */
+  top: 30px;
+  left: 220px;
+  color: #666;
+  font-size: 13px;
+}
+
 #buttons {
-  margin: 18px 0 20px;
+  margin: 25px 0 20px;
 }
 .button {
   display: inline;

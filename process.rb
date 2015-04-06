@@ -7,6 +7,8 @@ recent_re = Regexp.new("<i style='color: blue;'>(.*)</i>")
 team_re = Regexp.new('(.*) (\w+)')
 number_re = Regexp.new('&nbsp;(.*)&nbsp;')
 
+download_time = open('latest.time.txt').read.strip
+
 text = open('latest.html').read
 text.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
 text.encode!('UTF-8', 'UTF-16')
@@ -24,6 +26,7 @@ color_adjust = {
 team_colors = {}
 
 out_file = open('latest.js', 'w')
+out_file.write("var downloadTime = '%s';\n" % download_time)
 
 out_file.write("var results = [")
 items = text.scan(item_re)
