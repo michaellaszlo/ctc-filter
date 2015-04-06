@@ -37,10 +37,6 @@ a:hover {
 }
 
 #time {
-  /*
-  display: inline;
-  position: absolute;
-  */
   top: 30px;
   left: 220px;
   color: #666;
@@ -52,7 +48,6 @@ a:hover {
 }
 .button {
   display: inline;
-  border-radius: 5px;
   margin-right: 15px;
   color: #000;
   cursor: pointer;
@@ -93,6 +88,31 @@ a:hover {
 }
 .button.male.disabled .category {
   color: #a3aecb;
+}
+
+#permalink {
+  margin-top: 15px;
+}
+#permalink .button {
+  display: inline;
+  font-size: 13px;
+  padding: 1px 6px 2px;
+  border-radius: 5px;
+  border: 1px solid #e8e0e0;
+  background: #eee;
+  color: #666;
+}
+#permalink .button:hover {
+  border: 1px solid #a0a0a0;
+  background: #a5a5a5;
+  color: #f4f4f4;
+}
+#permalink .permalink {
+  visibility: hidden;
+  font-size: 13px;
+  color: #666;
+  background: #f7f7e2;
+  padding: 2px 6px;
 }
 
 table {

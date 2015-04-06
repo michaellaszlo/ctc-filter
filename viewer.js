@@ -1,5 +1,6 @@
 var Viewer = {
   results: results, teamColors: teamColors, downloadTime: downloadTime,
+  categories: 'FfMm',
   buttonInfo: [
     { category: 'F', longName: 'heavyweight female' },
     { category: 'f', longName: 'lightweight female' },
@@ -113,7 +114,7 @@ Viewer.parseQuery = function () {
     return;
   }
   var arg = parts[1],
-      categories = 'FfMm';
+      categories = g.categories;
   for (var i = 0; i < categories.length; ++i) {
     var category = categories[i];
     if (arg.indexOf(category) == -1) {
@@ -132,6 +133,7 @@ Viewer.makeChart = function () {
       table = document.createElement('table'),
       tbody = document.createElement('tbody'),
       tr = document.createElement('tr');
+  g.setPermalink();
   if (container.table !== undefined) {
     container.removeChild(container.table);
   }
@@ -206,12 +208,51 @@ Viewer.reportTime = function () {
       ' at ' + dateString + '.';
 };
 
+Viewer.setPermalink = function () {
+  var g = Viewer,
+      parts = [];
+  for (var i = 0; i < g.categories.length; ++i) {
+    if (g.buttons[g.categories[i]].active) {
+      parts.push(g.categories[i]);
+    }
+  }
+  var query = '?only='+parts.join(''),
+      url = document.URL,
+      pos = url.indexOf('?');
+  if (pos != -1) {
+    url = url.substring(0, pos);
+  }
+  g.permalink = url + query;
+};
+
+Viewer.makePermalinkButton = function () {
+  var g = Viewer,
+      container = document.getElementById('permalink'),
+      categories = g.categories,
+      button = g.makeElement('div', 'permalink', 'button'),
+      link = g.makeElement('span', '', 'permalink');
+  g.makeUnselectable(button);
+  button.onmouseover = function () {
+    link.innerHTML = g.permalink;
+    link.style.visibility = 'visible';
+  };
+  button.onmouseout = function () {
+    link.style.visibility = 'hidden';
+  };
+  button.onmousedown = function () {
+    window.location = g.permalink;
+  };
+  container.appendChild(button);
+  container.appendChild(link);
+};
+
 Viewer.load = function () {
   var g = Viewer;
   g.makeButtons();
   g.parseQuery();
   g.makeChart();
   g.reportTime();
+  g.makePermalinkButton();
 };
 
 window.onload = Viewer.load;
